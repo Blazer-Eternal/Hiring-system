@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const authRoutes_1 = __importDefault(require("./authRoutes"));
+const candidateRoutes_1 = __importDefault(require("./candidateRoutes"));
+const jobPositionRoutes_1 = __importDefault(require("./jobPositionRoutes"));
+const applicationRoutes_1 = __importDefault(require("./applicationRoutes"));
+const interviewRoutes_1 = __importDefault(require("./interviewRoutes"));
+const dashboardRoutes_1 = __importDefault(require("./dashboardRoutes"));
+const router = express_1.default.Router();
+router.use(body_parser_1.default.urlencoded({ extended: true }));
+router.use(body_parser_1.default.json());
+router.use('/auth', authRoutes_1.default);
+router.use('/can', candidateRoutes_1.default);
+router.use('/job', jobPositionRoutes_1.default);
+router.use('/app', applicationRoutes_1.default);
+router.use('/inter', interviewRoutes_1.default);
+router.use('/dash', dashboardRoutes_1.default);
+exports.default = router;

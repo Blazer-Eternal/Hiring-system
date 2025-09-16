@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middleware_1 = require("../../middleware");
+const validators_1 = require("../../validators");
+const interviewControllers_1 = require("../controllers/interviewControllers");
+const interviewRoutes = (0, express_1.Router)();
+interviewRoutes.post("/", (0, middleware_1.exceptionHandler)(middleware_1.Validator.check(validators_1.InterviewValidator)), (0, middleware_1.exceptionHandler)(interviewControllers_1.InterviewController.scheduleInterview));
+interviewRoutes.get("/", interviewControllers_1.InterviewController.getAllInterviews);
+interviewRoutes.get("/:id", interviewControllers_1.InterviewController.getInterviewDetails);
+interviewRoutes.put("/:id", interviewControllers_1.InterviewController.updateInterview);
+interviewRoutes.patch("/:id/status", interviewControllers_1.InterviewController.updateInterviewStatus);
+interviewRoutes.patch("/:id/feedback", interviewControllers_1.InterviewController.updateInterviewFeedback);
+// interviewRoutes.get("/applications/:id/interviews", InterviewController.getApplicationInterviews);
+exports.default = interviewRoutes;
