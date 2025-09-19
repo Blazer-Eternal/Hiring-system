@@ -1,10 +1,20 @@
 import { Briefcase, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/Button";
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -21,7 +31,11 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={`sticky top-0 z-90 w-full border-b backdrop-blur-md transition-colors duration-300 ${
+        scrolled ? "bg-white/20" : "bg-white/85"
+      }`}
+    >
       <div className="mx-auto px-2 sm:px-6 lg:px-6">
         <div className="flex h-10 items-center justify-between">
           {/* Logo */}
@@ -29,9 +43,7 @@ const Navbar = () => {
             <div className="p-2 rounded-lg bg-gradient-primary">
               <Briefcase className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-sm font-bold">
-              HireFlow
-            </span>
+            <span className="text-sm font-bold">HireFlow</span>
           </Link>
 
           {/* Desktop Navigation */}
