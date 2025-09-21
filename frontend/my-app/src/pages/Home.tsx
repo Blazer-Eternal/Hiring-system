@@ -23,7 +23,7 @@ const Home = () => {
       <div className="max-w-lg w-full mx-auto bg-white backdrop-blur-sm rounded-lg p-1 mt-6 shadow-lg">
         <div className="flex gap-2">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-5 text-gray-400" />
+            <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 h-3 w-5 text-gray-800" />
             <input
               type="text"
               id="search"
@@ -48,7 +48,7 @@ const Home = () => {
             {stats.map((stat, index) => (
               <div key={index} className="text-center space-y-1">
                 <div className="inline-flex p-2 rounded-full bg-blue-100">
-                  <stat.icon className="h-6 w-6 text-primary" />
+                  <stat.icon className="h-6 w-6 " />
                 </div>
                 <div className="text-xl font-bold">{stat.value}</div>
                 <div className="text-sm">{stat.label}</div>
