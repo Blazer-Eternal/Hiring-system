@@ -1,5 +1,6 @@
 import { Button } from "../components/ui/Button";
 import { Search, Users, Briefcase, Target, CheckCircle  } from "lucide-react";
+import JobsList from "./Jobs";
 
 const Home = () => {
    const stats = [
@@ -57,6 +58,10 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <div>
+        <JobsList/>
+      </div>
+      
     </>
   
   );

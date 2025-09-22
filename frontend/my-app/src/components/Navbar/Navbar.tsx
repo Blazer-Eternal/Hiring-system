@@ -39,8 +39,8 @@ const Navbar = () => {
       <div className="mx-auto px-2 sm:px-6 lg:px-6">
         <div className="flex h-10 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-bold text-xl text-blue-600">
-            <div className="p-2 rounded-lg bg-gradient-primary">
+          <Link to="/" className="flex items-center gap-2 font-bold text-xl text-black">
+            <div className="p-2 rounded-lg">
               <Briefcase className="h-6 w-6 text-primary-foreground" />
             </div>
             <span className="text-sm font-bold">HireFlow</span>

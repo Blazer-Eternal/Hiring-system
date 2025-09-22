@@ -24,15 +24,14 @@ function JobsList() {
 
   return (
     <>
-      {/* ✅ Static heading ALWAYS shows */}
-      <h1 className="text-4xl font-bold text-center mb-6">
-        This is Hiring System
-      </h1>
+      <div className="bg-gray-100 text-black py-6 text-center">
+        <h1 className="text-4xl font-bold text-center m-2">Find Your Perfect Job</h1>
+        <p>Discover opportunities that match your skills and career goals</p>
+      </div>
+      
 
       <div className="p-6 max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold mb-4">Available Jobs</h2>
-
-        {/* ✅ Status messages */}
         {loading && <p>Loading jobs…</p>}
         {error && <p className="text-red-600">Error: {error}</p>}
 
