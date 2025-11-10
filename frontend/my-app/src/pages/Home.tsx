@@ -11,20 +11,20 @@ const Home = () => {
   ];
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-blue-600 p-4">
-      <h1 className="text-4xl font-bold text-white text-center mt-10">
+      <div className="flex flex-col items-center justify-center bg-blue-600 p-4 h-max-screen ">
+      <h1 className="text-8xl font-bold text-white text-center mt-10">
         Find Your Dream Jobs <br />
         <span className="text-blue-800">Today</span>
       </h1>
-      <p className="text-white text-center mt-4 max-w-xl">
+      <p className="text-white text-center mt-9 max-w-4xl text-2xl">
         Connect with top employers and discover opportunities that <br />
         <span>match your skills and aspirations.</span>
       </p>
 
-      <div className="max-w-lg w-full mx-auto bg-white backdrop-blur-sm rounded-lg p-1 mt-6 shadow-lg">
+      <div className="max-w-2xl w-full mx-auto bg-white backdrop-blur-sm rounded-lg p-1 mt-9 shadow-lg">
         <div className="flex gap-2">
           <div className="flex-1 relative">
-            <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 h-3 w-5 text-gray-800" />
+            <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-800" />
             <input
               type="text"
               id="search"
@@ -51,7 +51,7 @@ const Home = () => {
                 <div className="inline-flex p-2 rounded-full bg-blue-100">
                   <stat.icon className="h-6 w-6 " />
                 </div>
-                <div className="text-xl font-bold">{stat.value}</div>
+                <div className="text-2xl font-bold">{stat.value}</div>
                 <div className="text-sm">{stat.label}</div>
               </div>
             ))}
