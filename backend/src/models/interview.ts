@@ -2,7 +2,7 @@ import * as Sequelize from "sequelize";
 import { Database } from "../config";
 import { InterviewModelInterface } from "../interfaces/interviewInterface";
 import { InterviewStatusEnum } from "../enums/interviewStatusEnum";
-import { attachInterviewHooks } from "../hooks/interviewHooks"; 
+
 
 const sequelize = Database.sequelize;
 
@@ -62,7 +62,5 @@ const Interviews = sequelize.define<InterviewModelInterface>(
   }
 );
 
-//  attach hooks after model definition
-attachInterviewHooks(Interviews);
 
 export default Interviews;

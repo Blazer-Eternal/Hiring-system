@@ -19,3 +19,4 @@ __exportStar(require("./candidateControllers"), exports);
 __exportStar(require("./jobPositionControllers"), exports);
 __exportStar(require("./ApplicationControllers"), exports);
 __exportStar(require("./interviewControllers"), exports);
+__exportStar(require("./dashboardControllers"), exports);

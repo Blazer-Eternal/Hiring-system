@@ -116,9 +116,9 @@ export class ApplicationController {
     }
 
     public static async getApplicationsByJob(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
+        const { jobId } = req.params;
         try {
-            const applications = await new ApplicationServices().findByJobId(Number(id));
+            const applications = await new ApplicationServices().findByJobId(Number(jobId));
             return res.status(200).json({
                 success: true,
                 data: applications,
@@ -133,9 +133,9 @@ export class ApplicationController {
     }
 
     public static async getApplicationsByCandidate(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
+        const { candidateId } = req.params;
         try {
-            const applications = await new ApplicationServices().findByCandidateId(Number(id));
+            const applications = await new ApplicationServices().findByCandidateId(Number(candidateId));
             return res.status(200).json({
                 success: true,
                 data: applications,
@@ -150,9 +150,9 @@ export class ApplicationController {
     }
 
     public static async getApplicationsByInterview(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
+        const { interviewId } = req.params;
         try {
-            const applications = await new ApplicationServices().findbyInterviewId(Number(id));
+            const applications = await new ApplicationServices().findbyInterviewId(Number(interviewId));
             return res.status(200).json({
                 success: true,
                 data: applications,

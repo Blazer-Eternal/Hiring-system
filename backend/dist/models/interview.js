@@ -36,7 +36,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Sequelize = __importStar(require("sequelize"));
 const config_1 = require("../config");
 const interviewStatusEnum_1 = require("../enums/interviewStatusEnum");
-const interviewHooks_1 = require("../hooks/interviewHooks");
 const sequelize = config_1.Database.sequelize;
 const Interviews = sequelize.define("Interviews", {
     id: {
@@ -85,6 +84,4 @@ const Interviews = sequelize.define("Interviews", {
 }, {
     timestamps: false,
 });
-//  attach hooks after model definition
-(0, interviewHooks_1.attachInterviewHooks)(Interviews);
 exports.default = Interviews;

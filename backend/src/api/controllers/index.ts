@@ -7,3 +7,5 @@ export *from './jobPositionControllers'
 export *from  './ApplicationControllers'
 
 export *from './interviewControllers'
+
+export *from './dashboardControllers'

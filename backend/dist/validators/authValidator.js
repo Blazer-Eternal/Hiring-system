@@ -7,7 +7,7 @@ exports.loginValidator = exports.signupValidator = void 0;
 const joi_1 = __importDefault(require("joi"));
 const roleEnum_1 = require("../enums/roleEnum");
 const signupValidator = joi_1.default.object({
-    name: joi_1.default.string().required(),
+    name: joi_1.default.string().optional(),
     email: joi_1.default.string().email().required(),
     password: joi_1.default.string().required(),
     role: joi_1.default.string().valid(roleEnum_1.RoleEnum.admin, roleEnum_1.RoleEnum.user)

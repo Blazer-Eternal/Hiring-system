@@ -137,9 +137,9 @@ class ApplicationController {
     }
     static getApplicationsByJob(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const { jobId } = req.params;
             try {
-                const applications = yield new applicationServices_1.ApplicationServices().findByJobId(Number(id));
+                const applications = yield new applicationServices_1.ApplicationServices().findByJobId(Number(jobId));
                 return res.status(200).json({
                     success: true,
                     data: applications,
@@ -156,9 +156,9 @@ class ApplicationController {
     }
     static getApplicationsByCandidate(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const { candidateId } = req.params;
             try {
-                const applications = yield new applicationServices_1.ApplicationServices().findByCandidateId(Number(id));
+                const applications = yield new applicationServices_1.ApplicationServices().findByCandidateId(Number(candidateId));
                 return res.status(200).json({
                     success: true,
                     data: applications,
@@ -175,9 +175,9 @@ class ApplicationController {
     }
     static getApplicationsByInterview(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const { interviewId } = req.params;
             try {
-                const applications = yield new applicationServices_1.ApplicationServices().findbyInterviewId(Number(id));
+                const applications = yield new applicationServices_1.ApplicationServices().findbyInterviewId(Number(interviewId));
                 return res.status(200).json({
                     success: true,
                     data: applications,
