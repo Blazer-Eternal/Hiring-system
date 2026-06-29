@@ -44,13 +44,26 @@ const Interviews = sequelize.define("Interviews", {
         autoIncrement: true,
         primaryKey: true,
     },
+    applicationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "Applications", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    },
     candidateId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: "Candidates",
-            key: "id",
-        },
+        references: { model: "Candidates", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    },
+    recruiterId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "Recruiters", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
     },
     scheduleDate: {
         type: Sequelize.DATE,
@@ -59,10 +72,7 @@ const Interviews = sequelize.define("Interviews", {
     duration: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        validate: {
-            min: 15,
-            max: 60,
-        },
+        validate: { min: 15, max: 60 },
     },
     status: {
         type: Sequelize.ENUM(interviewStatusEnum_1.InterviewStatusEnum.SCHEDULED, interviewStatusEnum_1.InterviewStatusEnum.COMPLETED, interviewStatusEnum_1.InterviewStatusEnum.CANCELLED),
@@ -76,12 +86,7 @@ const Interviews = sequelize.define("Interviews", {
     rating: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        validate: {
-            min: 1,
-            max: 5,
-        },
+        validate: { min: 1, max: 5 },
     },
-}, {
-    timestamps: false,
-});
+}, { timestamps: true });
 exports.default = Interviews;

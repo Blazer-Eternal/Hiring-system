@@ -1,9 +1,7 @@
 import * as Sequelize from "sequelize";
 import { Database } from "../config";
 import { UserModelInterface } from "../interfaces/userInterface";
-import { RoleEnum } from "../enums/roleEnum";
 
-// Solution: Properly type your sequelize instance
 interface SequelizeWithQueryTypes extends Sequelize.Sequelize {
   QueryTypes: typeof Sequelize.QueryTypes;
 }
@@ -17,7 +15,11 @@ const Users = sequelize.define<UserModelInterface>("Users", {
     autoIncrement: true,
     primaryKey: true,
   },
-  name: {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  lastName: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -31,18 +33,17 @@ const Users = sequelize.define<UserModelInterface>("Users", {
     allowNull: false,
   },
   role: {
-    type: Sequelize.ENUM(RoleEnum.admin, RoleEnum.user),
+    type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: RoleEnum.user, 
+    defaultValue: 'user',
   },
 }, {
   timestamps: false,
 });
 
-// Export both the model and the typed sequelize instance
-export const db = {
-  Users,
-  sequelize
-};
-
+export const db = { Users, sequelize };
 export default Users;
+
+// the recruiter table is not needed. the
+//  functionality for the recruiter signup can be done 
+//  through the users table by checking the role .i.e role=="recruiter"

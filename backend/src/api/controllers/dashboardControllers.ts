@@ -1,52 +1,52 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { DashboardServices } from "../../services/dashboardServices";
+import { CustomRequestInterface } from "../../interfaces";
+import Models from "../../models";
 
-const dashboardServices = new DashboardServices();
+const svc = new DashboardServices();
 
 export class DashboardController {
-  // Admin dashboard stats
-  public async getAdminStats(req: Request, res: Response): Promise<Response> {
+  // Admin: full system — all users, hired/rejected, interview schedules, recruiter list
+  public static async getAdminStats(req: CustomRequestInterface, res: Response): Promise<Response> {
     try {
-      const data = await dashboardServices.getAdminStats();
-      return res.status(200).json({
-        success: true,
-        message: "Admin dashboard stats fetched successfully",
-        data
-      });
+      const data = await svc.getAdminStats();
+      return res.status(200).json({ success: true, data });
     } catch (error: any) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to fetch admin dashboard stats",
-        error: error.message
-      });
+      return res.status(500).json({ success: false, message: "Failed to fetch admin dashboard", error: error.message });
     }
   }
 
-  // User dashboard stats
-  public async getUserStats(req: Request, res: Response): Promise<Response> {
+  // Recruiter: own pipeline, job performance, upcoming interviews
+  public static async getRecruiterStats(req: CustomRequestInterface, res: Response): Promise<Response> {
     try {
-      const userId = Number(req.params.userId); // assuming userId is passed as param
-      if (isNaN(userId)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid userId"
+      const data = await svc.getRecruiterStats(req.user.recruiterId!);
+      return res.status(200).json({ success: true, data });
+    } catch (error: any) {
+      return res.status(500).json({ success: false, message: "Failed to fetch recruiter dashboard", error: error.message });
+    }
+  }
+
+  // User/Candidate: own applications, interview schedule, rejections, offers
+  public static async getUserStats(req: CustomRequestInterface, res: Response): Promise<Response> {
+    try {
+      const candidate = await Models.Candidates.findOne({ where: { userId: req.user.userId } });
+      if (!candidate) {
+        // Return empty dashboard — don't crash with 404
+        return res.status(200).json({
+          success: true,
+          data: {
+            overview: { totalApplications: 0, activeApplications: 0, upcomingInterviews: 0, totalHires: 0 },
+            applicationStatus: { applied: 0, underReview: 0, interview: 0, hired: 0, rejected: 0 },
+            recentApplications: [],
+            upcomingInterviews: [],
+            activityFeed: [],
+          }
         });
       }
-
-      const data = await dashboardServices.getUserStats(userId);
-      return res.status(200).json({
-        success: true,
-        message: "User dashboard stats fetched successfully",
-        data
-      });
+      const data = await svc.getUserStats(candidate.id);
+      return res.status(200).json({ success: true, data });
     } catch (error: any) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to fetch user dashboard stats",
-        error: error.message
-      });
+      return res.status(500).json({ success: false, message: "Failed to fetch user dashboard", error: error.message });
     }
   }
 }

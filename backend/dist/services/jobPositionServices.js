@@ -15,42 +15,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobServices = void 0;
 const models_1 = __importDefault(require("../models"));
 class JobServices {
-    findAll() {
+    findAll(filters) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield models_1.default.JobPositions.findAll();
-            return data;
+            const where = {};
+            if (filters === null || filters === void 0 ? void 0 : filters.status)
+                where.status = filters.status;
+            if (filters === null || filters === void 0 ? void 0 : filters.recruiterId)
+                where.recruiterId = filters.recruiterId;
+            return yield models_1.default.JobPositions.findAll({ where });
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const job = yield models_1.default.JobPositions.findByPk(id);
-            return job;
+            return yield models_1.default.JobPositions.findByPk(id, {
+                include: [{ model: models_1.default.Users, as: 'Recruiter', attributes: ['id', 'firstName', 'lastName', 'email'] }]
+            });
         });
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const job = yield models_1.default.JobPositions.create(data);
-            return job;
+            return yield models_1.default.JobPositions.create(data);
         });
     }
     update(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const update = yield models_1.default.JobPositions.update(data, {
-                where: {
-                    id: id,
-                },
-            });
-            return update[0] === 0 ? false : true;
+            const [updated] = yield models_1.default.JobPositions.update(data, { where: { id } });
+            return updated > 0;
         });
     }
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const deleted = yield models_1.default.JobPositions.destroy({
-                where: {
-                    id: id,
-                },
-            });
+            const deleted = yield models_1.default.JobPositions.destroy({ where: { id } });
             return deleted > 0;
+        });
+    }
+    findByRecruiterId(recruiterId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield models_1.default.JobPositions.findAll({ where: { recruiterId } });
         });
     }
 }

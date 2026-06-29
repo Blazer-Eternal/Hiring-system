@@ -20,3 +20,5 @@ __exportStar(require("./jobPositionInterface"), exports);
 __exportStar(require("./applicationInterface"), exports);
 __exportStar(require("./interviewInterface"), exports);
 __exportStar(require("./dashboardInterface"), exports);
+__exportStar(require("./recruiterInterface"), exports);
+__exportStar(require("./customRequestInterface"), exports);

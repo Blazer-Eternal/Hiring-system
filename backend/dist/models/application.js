@@ -64,7 +64,7 @@ const Applications = sequelize.define("Applications", {
     },
     interviewId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: "Interviews",
             key: "id",
@@ -75,6 +75,25 @@ const Applications = sequelize.define("Applications", {
     status: {
         type: Sequelize.ENUM(applicationStatusEnum_1.ApplicationStatusEnum.APPLIED, applicationStatusEnum_1.ApplicationStatusEnum.UNDER_REVIEW, applicationStatusEnum_1.ApplicationStatusEnum.INTERVIEW, applicationStatusEnum_1.ApplicationStatusEnum.HIRED, applicationStatusEnum_1.ApplicationStatusEnum.REJECTED),
         allowNull: false,
+        defaultValue: applicationStatusEnum_1.ApplicationStatusEnum.APPLIED,
+    },
+    matchScore: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+        defaultValue: null,
+        comment: 'TF-IDF cosine similarity score (0-100) between CV and job description',
+    },
+    matchedKeywords: {
+        type: Sequelize.JSON,
+        allowNull: true,
+        defaultValue: null,
+        comment: 'Keywords matched between candidate CV and job requirements',
+    },
+    cvSnapshot: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: null,
+        comment: 'CV text captured at time of application for word matching',
     },
     createdAt: {
         type: Sequelize.DATE,

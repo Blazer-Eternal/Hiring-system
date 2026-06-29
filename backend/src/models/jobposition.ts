@@ -14,6 +14,16 @@ const JobPositions = sequelize.define<JobModelInterface>(
             autoIncrement: true,
             primaryKey: true,
         },
+        recruiterId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: "Recruiters",
+                key: "id",
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+        },
         title: {
             type: Sequelize.STRING,
             allowNull: false,

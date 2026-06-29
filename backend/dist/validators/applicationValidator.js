@@ -9,9 +9,9 @@ const applicationStatusEnum_1 = require("../enums/applicationStatusEnum");
 const ApplicationValidator = joi_1.default.object({
     candidateId: joi_1.default.number().integer().positive().required(),
     jobId: joi_1.default.number().integer().positive().required(),
-    interviewId: joi_1.default.number().integer().positive().required(),
+    interviewId: joi_1.default.number().integer().positive().optional().allow(null),
     status: joi_1.default.string()
-        .valid(applicationStatusEnum_1.ApplicationStatusEnum.APPLIED, applicationStatusEnum_1.ApplicationStatusEnum.UNDER_REVIEW, applicationStatusEnum_1.ApplicationStatusEnum.INTERVIEW, applicationStatusEnum_1.ApplicationStatusEnum.HIRED, applicationStatusEnum_1.ApplicationStatusEnum.REJECTED),
+        .valid(applicationStatusEnum_1.ApplicationStatusEnum.APPLIED, applicationStatusEnum_1.ApplicationStatusEnum.UNDER_REVIEW, applicationStatusEnum_1.ApplicationStatusEnum.INTERVIEW, applicationStatusEnum_1.ApplicationStatusEnum.HIRED, applicationStatusEnum_1.ApplicationStatusEnum.REJECTED).optional(),
     createdAt: joi_1.default.date().default(Date.now),
     updatedAt: joi_1.default.date().default(Date.now)
 });

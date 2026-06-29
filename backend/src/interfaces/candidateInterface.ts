@@ -1,16 +1,17 @@
 import * as Sequelize from "sequelize";
 
 export interface InputCandidateInterface {
-  name: string;
-  email: string;
-  phone: string;
-  skills: string[];
-  experience: number;
+  userId: number;
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  temporaryAddress?: string;
+  permanentAddress?: string;
+  cvUrl?: string;
 }
 
 export interface CandidateInterface extends InputCandidateInterface {
   id: number;
-
 }
 
 export interface CandidateModelInterface

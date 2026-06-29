@@ -1,178 +1,58 @@
 import { Router } from "express";
-import { exceptionHandler, Validator } from "../../middleware";
+import { exceptionHandler, Validator, Guard } from "../../middleware";
 import { InterviewValidator } from "../../validators";
 import { InterviewController } from "../controllers/interviewControllers";
+import { RoleEnum } from "../../enums/roleEnum";
 
 const interviewRoutes = Router();
 
-/**
- * @swagger
- * tags:
- *   name: Interview
- *   description: Interview Management APIs
- */
-
-
-/**
- * @swagger
- * /interviews:
- *   post:
- *     summary: Schedule an interview
- *     tags: [Interview]
- *     description: Schedule interview for a candidate application
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               applicationId:
- *                 type: integer
- *                 example: 3
- *               interviewDate:
- *                 type: string
- *                 example: 2026-03-20
- *               interviewer:
- *                 type: string
- *                 example: HR Manager
- *               location:
- *                 type: string
- *                 example: Online
- *     responses:
- *       201:
- *         description: Interview scheduled successfully
- */
+// ── Recruiter: schedule an interview for a candidate ──────────────────────────
 interviewRoutes.post(
   "/",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.recruiter)),
   exceptionHandler(Validator.check(InterviewValidator)),
   exceptionHandler(InterviewController.scheduleInterview)
 );
 
+// ── All authenticated: view interviews (filtered by role in controller) ────────
+// User sees own schedule + status (scheduled/rejected/hired)
+// Recruiter sees interviews they created
+// Admin sees all
+interviewRoutes.get(
+  "/",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(InterviewController.getAllInterviews)
+);
 
-/**
- * @swagger
- * /interviews:
- *   get:
- *     summary: Get all interviews
- *     tags: [Interview]
- *     responses:
- *       200:
- *         description: List of interviews
- */
-interviewRoutes.get("/", InterviewController.getAllInterviews);
+interviewRoutes.get(
+  "/:id",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(InterviewController.getInterviewDetails)
+);
 
+// ── Recruiter / Admin: update interview schedule ──────────────────────────────
+interviewRoutes.put(
+  "/:id",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.recruiter, RoleEnum.admin)),
+  exceptionHandler(InterviewController.updateInterview)
+);
 
-/**
- * @swagger
- * /interviews/{id}:
- *   get:
- *     summary: Get interview details
- *     tags: [Interview]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Interview ID
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Interview details
- */
-interviewRoutes.get("/:id", InterviewController.getInterviewDetails);
+// ── Recruiter / Admin: mark completed or cancelled ───────────────────────────
+interviewRoutes.patch(
+  "/:id/status",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.recruiter, RoleEnum.admin)),
+  exceptionHandler(InterviewController.updateInterviewStatus)
+);
 
-
-/**
- * @swagger
- * /interviews/{id}:
- *   put:
- *     summary: Update interview details
- *     tags: [Interview]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Interview ID
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               interviewDate:
- *                 type: string
- *               interviewer:
- *                 type: string
- *               location:
- *                 type: string
- *     responses:
- *       200:
- *         description: Interview updated successfully
- */
-interviewRoutes.put("/:id", InterviewController.updateInterview);
-
-
-/**
- * @swagger
- * /interviews/{id}/status:
- *   patch:
- *     summary: Update interview status
- *     tags: [Interview]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Interview ID
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               status:
- *                 type: string
- *                 example: completed
- *     responses:
- *       200:
- *         description: Interview status updated
- */
-interviewRoutes.patch("/:id/status", InterviewController.updateInterviewStatus);
-
-
-/**
- * @swagger
- * /interviews/{id}/feedback:
- *   patch:
- *     summary: Add interview feedback
- *     tags: [Interview]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Interview ID
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               feedback:
- *                 type: string
- *                 example: Candidate performed well in technical round
- *     responses:
- *       200:
- *         description: Feedback updated successfully
- */
-interviewRoutes.patch("/:id/feedback", InterviewController.updateInterviewFeedback);
+// ── Recruiter: add feedback + rating after interview ─────────────────────────
+interviewRoutes.patch(
+  "/:id/feedback",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.recruiter, RoleEnum.admin)),
+  exceptionHandler(InterviewController.updateInterviewFeedback)
+);
 
 export default interviewRoutes;

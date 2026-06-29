@@ -1,19 +1,17 @@
 import Joi from 'joi';
 
-import { RoleEnum } from '../enums/roleEnum';
-
 const signupValidator = Joi.object({
-    name:Joi.string().optional(),
-    email:Joi.string().email().required(),
-    password:Joi.string().required(),
-    role:Joi.string().valid(RoleEnum.admin,RoleEnum.user)
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    // role is NOT accepted at signup — all users register as 'user' by default
+    // Admin assigns recruiter/admin roles separately
 });
-
 
 const loginValidator = Joi.object({
-    email:Joi.string().email().required(),
-    password:Joi.string().required(),
-  
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
 });
 
-export { signupValidator,loginValidator }
+export { signupValidator, loginValidator }

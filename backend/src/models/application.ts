@@ -29,19 +29,19 @@ const Applications = sequelize.define<ApplicationModelInterface>(
         model: "JobPositions",
         key: "id",
       },
-          onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
-       interviewId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Interviews",
-          key: "id",
-        },
-          onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+    interviewId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Interviews",
+        key: "id",
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     status: {
       type: Sequelize.ENUM(
         ApplicationStatusEnum.APPLIED,
@@ -51,6 +51,25 @@ const Applications = sequelize.define<ApplicationModelInterface>(
         ApplicationStatusEnum.REJECTED
       ),
       allowNull: false,
+      defaultValue: ApplicationStatusEnum.APPLIED,
+    },
+    matchScore: {
+      type: Sequelize.FLOAT,
+      allowNull: true,
+      defaultValue: null,
+      comment: 'TF-IDF cosine similarity score (0-100) between CV and job description',
+    },
+    matchedKeywords: {
+      type: Sequelize.JSON,
+      allowNull: true,
+      defaultValue: null,
+      comment: 'Keywords matched between candidate CV and job requirements',
+    },
+    cvSnapshot: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+      defaultValue: null,
+      comment: 'CV text captured at time of application for word matching',
     },
     createdAt: {
       type: Sequelize.DATE,

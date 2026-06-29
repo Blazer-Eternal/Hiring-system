@@ -1,38 +1,34 @@
-// In your validators/candidate.validator.ts (or similar)
 import Joi from 'joi';
 
+// Used for both create and update — all fields optional on update
 const CandidateValidator = Joi.object({
   name: Joi.string()
     .min(2)
     .max(100)
-    .required()
+    .optional()
     .messages({
-      'string.empty': 'Name is required',
       'string.min': 'Name must be at least 2 characters',
-      'string.max': 'Name must be less than 100 characters'
+      'string.max': 'Name must be less than 100 characters',
     }),
   email: Joi.string()
     .email()
-    .required()
-    .messages({
-      'string.empty': 'Email is required',
-      'string.email': 'Please provide a valid email address'
-    }),
-  phone: Joi.string()
-    .pattern(/^\+?[1-9]\d{1,14}$/)
     .optional()
     .messages({
-      'string.pattern.base': 'Please provide a valid phone number'
+      'string.email': 'Please provide a valid email address',
     }),
-  resumeUrl: Joi.string()
-    .uri()
+  phoneNumber: Joi.string()
+    .min(7)
+    .max(20)
     .optional()
     .messages({
-      'string.uri': 'Please provide a valid URL'
+      'string.min': 'Phone number is too short',
+      'string.max': 'Phone number is too long',
     }),
-  skills: Joi.array()
-    .items(Joi.string())
-    .optional()
+  temporaryAddress: Joi.string().optional().allow(''),
+  permanentAddress: Joi.string().optional().allow(''),
+  cvUrl: Joi.alternatives()
+    .try(Joi.string().uri(), Joi.string().allow(''))
+    .optional(),
 });
 
 export { CandidateValidator };

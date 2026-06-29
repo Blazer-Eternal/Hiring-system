@@ -40,10 +40,10 @@ public async connection() {
 
      try{
         await this.sequelize.authenticate();
-        console.info(`${this.dialect} database connected`);
+        console.info('Database connected successfully');
         return this.sequelize;
      }catch(error:any){
-        console.error(error.message);
+        console.error('Database connection failed:', error.message);
         return error;
      }
     }

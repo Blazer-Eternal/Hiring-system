@@ -2,6 +2,7 @@ import * as Sequelize from "sequelize";
 import { JobStatusEnum } from "../enums/jobStatusEnum";
 
 export interface InputJobInterface {
+  recruiterId: number;   // references Users.id where role='recruiter'
   title: string;
   description: string;
   requirements: string;

@@ -25,7 +25,16 @@ app.set("trust proxy", true);
 app.use(express.json()); 
 
 app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-Database.connection();
+
+async function initDatabase() {
+  try {
+    await Database.connection();
+  } catch (error) {
+    console.error('Database connection error:', error);
+  }
+}
+
+initDatabase();
 
 
 

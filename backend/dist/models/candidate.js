@@ -43,27 +43,34 @@ const Candidates = sequelize.define("Candidates", {
         autoIncrement: true,
         primaryKey: true,
     },
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true,
+    },
     name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true, // optional on update
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: true, // optional on update, no unique — email lives in Users
     },
-    phone: {
+    phoneNumber: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: true, // optional on update
     },
-    skills: {
+    temporaryAddress: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
-    experience: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
+    permanentAddress: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    cvUrl: {
+        type: Sequelize.STRING,
+        allowNull: true,
     },
 }, {
     timestamps: false,

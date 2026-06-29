@@ -15,8 +15,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./authControllers"), exports);
+__exportStar(require("./recruiterAuthControllers"), exports);
 __exportStar(require("./candidateControllers"), exports);
 __exportStar(require("./jobPositionControllers"), exports);
 __exportStar(require("./ApplicationControllers"), exports);
 __exportStar(require("./interviewControllers"), exports);
 __exportStar(require("./dashboardControllers"), exports);
+__exportStar(require("./recruiterControllers"), exports);
+__exportStar(require("./userControllers"), exports);
+__exportStar(require("./aiControllers"), exports);

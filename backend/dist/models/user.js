@@ -36,7 +36,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
 const Sequelize = __importStar(require("sequelize"));
 const config_1 = require("../config");
-const roleEnum_1 = require("../enums/roleEnum");
 const sequelize = config_1.Database.sequelize;
 const Users = sequelize.define("Users", {
     id: {
@@ -45,7 +44,11 @@ const Users = sequelize.define("Users", {
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
+    firstName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    lastName: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -59,16 +62,15 @@ const Users = sequelize.define("Users", {
         allowNull: false,
     },
     role: {
-        type: Sequelize.ENUM(roleEnum_1.RoleEnum.admin, roleEnum_1.RoleEnum.user),
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: roleEnum_1.RoleEnum.user,
+        defaultValue: 'user',
     },
 }, {
     timestamps: false,
 });
-// Export both the model and the typed sequelize instance
-exports.db = {
-    Users,
-    sequelize
-};
+exports.db = { Users, sequelize };
 exports.default = Users;
+// the recruiter table is not needed. the
+//  functionality for the recruiter signup can be done 
+//  through the users table by checking the role .i.e role=="recruiter"

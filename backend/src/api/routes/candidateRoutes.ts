@@ -1,143 +1,61 @@
 import { Router } from "express";
 import { CandidateController } from "../controllers/candidateControllers";
 import { CandidateValidator } from "../../validators";
-import { exceptionHandler, Validator } from "../../middleware";
+import { exceptionHandler, Validator, Guard } from "../../middleware";
+import { RoleEnum } from "../../enums/roleEnum";
 
 const candidateRoutes = Router();
 
-/**
- * @swagger
- * tags:
- *   name: Candidate
- *   description: Candidate Management APIs
- */
+// ── User (candidate) ──────────────────────────────────────────────────────────
+// View own profile
+candidateRoutes.get(
+  "/me",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.user)),
+  exceptionHandler(CandidateController.getMyProfile)
+);
 
-
-/**
- * @swagger
- * /candidates:
- *   get:
- *     summary: Get all candidates
- *     tags: [Candidate]
- *     responses:
- *       200:
- *         description: List of candidates
- */
-candidateRoutes.get("/", CandidateController.getAllCandidates);
-
-
-/**
- * @swagger
- * /candidates/{id}:
- *   get:
- *     summary: Get candidate by ID
- *     tags: [Candidate]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Candidate ID
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Candidate details
- */
-candidateRoutes.get("/:id", CandidateController.getCandidateById);
-
-
-/**
- * @swagger
- * /candidates:
- *   post:
- *     summary: Create a candidate
- *     tags: [Candidate]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 example: Ram Sharma
- *               email:
- *                 type: string
- *                 example: ram@gmail.com
- *               phone:
- *                 type: string
- *                 example: 9800000000
- *               address:
- *                 type: string
- *                 example: Butwal, Nepal
- *     responses:
- *       201:
- *         description: Candidate created successfully
- */
+// Create own profile
 candidateRoutes.post(
   "/",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.user)),
   exceptionHandler(Validator.check(CandidateValidator)),
   exceptionHandler(CandidateController.createCandidate)
 );
 
-
-/**
- * @swagger
- * /candidates/{id}:
- *   put:
- *     summary: Update candidate
- *     tags: [Candidate]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Candidate ID
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               phone:
- *                 type: string
- *               address:
- *                 type: string
- *     responses:
- *       200:
- *         description: Candidate updated successfully
- */
+// Update own profile
 candidateRoutes.put(
   "/:id",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.user, RoleEnum.admin)),
   exceptionHandler(Validator.check(CandidateValidator)),
   exceptionHandler(CandidateController.updateCandidate)
 );
 
+// ── Admin ─────────────────────────────────────────────────────────────────────
+// View all candidates
+candidateRoutes.get(
+  "/",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.admin, RoleEnum.recruiter)),
+  exceptionHandler(CandidateController.getAllCandidates)
+);
 
-/**
- * @swagger
- * /candidates/{id}:
- *   delete:
- *     summary: Delete candidate
- *     tags: [Candidate]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Candidate ID
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Candidate deleted successfully
- */
-candidateRoutes.delete("/:id", CandidateController.deleteCandidate);
+// Delete a candidate
+candidateRoutes.delete(
+  "/:id",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.admin)),
+  exceptionHandler(CandidateController.deleteCandidate)
+);
+
+// View candidate by ID (admin + recruiter)
+candidateRoutes.get(
+  "/:id",
+  exceptionHandler(Guard.grantAccess),
+  exceptionHandler(Guard.grantRole(RoleEnum.admin, RoleEnum.recruiter)),
+  exceptionHandler(CandidateController.getCandidateById)
+);
 
 export default candidateRoutes;

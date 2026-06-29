@@ -1,11 +1,11 @@
 import * as Sequelize from "sequelize";
-import { RoleEnum } from "../enums/roleEnum";
 
 export interface InputUserInterface {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  role: RoleEnum;
+  role: string;
 }
 
 export interface UserInterface extends InputUserInterface {

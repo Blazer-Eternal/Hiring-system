@@ -1,11 +1,10 @@
 export * from './authControllers'
-
-export *from './candidateControllers'
-
-export *from './jobPositionControllers'
-
-export *from  './ApplicationControllers'
-
-export *from './interviewControllers'
-
-export *from './dashboardControllers'
+export * from './recruiterAuthControllers'
+export * from './candidateControllers'
+export * from './jobPositionControllers'
+export * from './ApplicationControllers'
+export * from './interviewControllers'
+export * from './dashboardControllers'
+export * from './recruiterControllers'
+export * from './userControllers'
+export * from './aiControllers'

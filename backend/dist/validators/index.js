@@ -19,3 +19,4 @@ __exportStar(require("./candidateValidator"), exports);
 __exportStar(require("./applicationValidator"), exports);
 __exportStar(require("./jobpositionValidator"), exports);
 __exportStar(require("./interviewValidator"), exports);
+__exportStar(require("./recruiterValidator"), exports);

@@ -7,18 +7,23 @@ import jobRoutes from './jobPositionRoutes';
 import applicationRoutes from './applicationRoutes';
 import interviewRoutes from './interviewRoutes';
 import dashboardRoutes from './dashboardRoutes'
+import recruiterRoutes from './recruiterRoutes'
+import aiRoutes from './aiRoutes'
+import userRoutes from './userRoutes'
+
 const router = express.Router();
 
 router.use(bodyParser.urlencoded({extended: true}));
-
 router.use(bodyParser.json());
 
-router.use('/auth',authRoutes)
-router.use('/can',candidateRoutes)
-router.use('/job',jobRoutes)
-router.use('/app',applicationRoutes)
-router.use('/inter',interviewRoutes)
-router.use('/dash',dashboardRoutes)
-
+router.use('/auth',       authRoutes)
+router.use('/can',        candidateRoutes)
+router.use('/job',        jobRoutes)
+router.use('/app',        applicationRoutes)
+router.use('/inter',      interviewRoutes)
+router.use('/dash',       dashboardRoutes)
+router.use('/recruiter',  recruiterRoutes)
+router.use('/ai',         aiRoutes)
+router.use('/users',      userRoutes)
 
 export default router;

@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const services_1 = require("../../services");
 const config_1 = require("../../config");
+const roleEnum_1 = require("../../enums/roleEnum");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class AuthController {
-    // (Signup)
+    // Signup — auto-creates recruiter profile row if role is recruiter
     static signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, email, password, role } = req.body;
+            const { firstName, lastName, email, password } = req.body;
             try {
-                // Check if user exists
                 const userExists = yield new services_1.UserServices().findone(email);
                 if (userExists) {
                     return res.status(400).json({
@@ -31,23 +31,23 @@ class AuthController {
                         message: `User with email ${email} already exists!`
                     });
                 }
-                // Hash password
                 const hashedPassword = yield bcrypt_1.default.hash(password, 12);
-                // Create user
                 const user = yield new services_1.UserServices().create({
-                    name,
+                    firstName,
+                    lastName,
                     email,
                     password: hashedPassword,
-                    role
+                    role: roleEnum_1.RoleEnum.user // always 'user' on signup — admin assigns roles
                 });
+                // No separate recruiter table — role='recruiter' in Users is sufficient
                 return res.status(201).json({
                     success: true,
                     message: 'Signup successful! You can proceed to login',
                     data: {
                         id: user.id,
-                        name: user.name,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
                         email: user.email,
-                        password: user.password,
                         role: user.role
                     }
                 });
@@ -66,7 +66,6 @@ class AuthController {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password } = req.body;
             try {
-                // Check if user exists
                 const user = yield new services_1.UserServices().findone(email);
                 if (!user) {
                     return res.status(404).json({
@@ -74,7 +73,6 @@ class AuthController {
                         message: "User does not exist!"
                     });
                 }
-                // Verify password
                 const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
                 if (!isPasswordValid) {
                     return res.status(401).json({
@@ -82,12 +80,7 @@ class AuthController {
                         message: "Invalid credentials!"
                     });
                 }
-                // Generate JWT token 
-                const token = jsonwebtoken_1.default.sign({
-                    userId: user.id,
-                    email: user.email,
-                    role: user.role
-                }, config_1.jwtSecret, { expiresIn: '1h' });
+                const token = jsonwebtoken_1.default.sign({ userId: user.id, email: user.email, role: (user.role || '').toLowerCase().trim() }, config_1.jwtSecret, { expiresIn: '24h' });
                 return res.status(200).json({
                     success: true,
                     message: "Login successful!",
@@ -95,9 +88,10 @@ class AuthController {
                         token,
                         user: {
                             id: user.id,
-                            name: user.name,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
                             email: user.email,
-                            role: user.role
+                            role: (user.role || '').toLowerCase().trim()
                         }
                     }
                 });
@@ -111,21 +105,15 @@ class AuthController {
             }
         });
     }
-    // Logout 
+    // Logout
     static logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return res.status(200).json({
-                    success: true,
-                    message: "Logout successful!"
-                });
+                return res.status(200).json({ success: true, message: "Logout successful!" });
             }
             catch (error) {
                 console.error('Logout error:', error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Internal server error'
-                });
+                return res.status(500).json({ success: false, message: 'Internal server error' });
             }
         });
     }

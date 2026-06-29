@@ -11,7 +11,7 @@ const options: Options = {
     },
     servers: [
       {
-        url: "https://noneternally-unhomologous-desirae.ngrok-free.dev/api/v1",
+        url: "https://hypnotic-thank-overfill.ngrok-free.dev/api/v1",
         description: "Public Ngrok Server",
       },
     ],

@@ -5,4 +5,5 @@ var RoleEnum;
 (function (RoleEnum) {
     RoleEnum["admin"] = "admin";
     RoleEnum["user"] = "user";
+    RoleEnum["recruiter"] = "recruiter";
 })(RoleEnum || (exports.RoleEnum = RoleEnum = {}));

@@ -17,13 +17,17 @@ const models_1 = __importDefault(require("../models"));
 class CandidateServices {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield models_1.default.Candidates.findAll();
+            const data = yield models_1.default.Candidates.findAll({
+                include: [{ model: models_1.default.Users, as: 'User', attributes: ['id', 'firstName', 'lastName', 'email'] }]
+            });
             return data;
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const candidate = yield models_1.default.Candidates.findByPk(id);
+            const candidate = yield models_1.default.Candidates.findByPk(id, {
+                include: [{ model: models_1.default.Users, as: 'User', attributes: ['id', 'firstName', 'lastName', 'email'] }]
+            });
             return candidate;
         });
     }
@@ -35,12 +39,10 @@ class CandidateServices {
     }
     update(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const update = yield models_1.default.Candidates.update(data, {
-                where: {
-                    id: id,
-                },
+            yield models_1.default.Candidates.update(data, { where: { id } });
+            return yield models_1.default.Candidates.findByPk(id, {
+                include: [{ model: models_1.default.Users, as: 'User', attributes: ['id', 'firstName', 'lastName', 'email'] }]
             });
-            return update[0] === 0 ? false : true;
         });
     }
     delete(id) {

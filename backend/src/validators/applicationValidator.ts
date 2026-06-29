@@ -4,7 +4,7 @@ import { ApplicationStatusEnum } from '../enums/applicationStatusEnum';
 const ApplicationValidator = Joi.object({
   candidateId: Joi.number().integer().positive().required(),
   jobId: Joi.number().integer().positive().required(),
-  interviewId: Joi.number().integer().positive().required(),
+  interviewId: Joi.number().integer().positive().optional().allow(null),
   status: Joi.string()
     .valid(
       ApplicationStatusEnum.APPLIED,
@@ -12,7 +12,7 @@ const ApplicationValidator = Joi.object({
       ApplicationStatusEnum.INTERVIEW,
       ApplicationStatusEnum.HIRED,
       ApplicationStatusEnum.REJECTED
-    ),
+    ).optional(),
   createdAt: Joi.date().default(Date.now),
   updatedAt: Joi.date().default(Date.now)
 });

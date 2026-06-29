@@ -9,3 +9,5 @@ export *from './jobPositionServices'
 export *from './interviewServices'
 
 export *from './dashboardServices'
+
+export * from './recruiterServices'

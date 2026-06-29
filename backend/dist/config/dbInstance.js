@@ -37,11 +37,11 @@ class Database {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.sequelize.authenticate();
-                console.info(`${this.dialect} database connected`);
+                console.info('Database connected successfully');
                 return this.sequelize;
             }
             catch (error) {
-                console.error(error.message);
+                console.error('Database connection failed:', error.message);
                 return error;
             }
         });

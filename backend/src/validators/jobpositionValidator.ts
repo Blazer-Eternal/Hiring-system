@@ -13,7 +13,9 @@ const jobPostionValidator = Joi.object({
       JobStatusEnum.OPEN,
       JobStatusEnum.CLOSED
     )
-    .default(JobStatusEnum.OPEN)
+    .default(JobStatusEnum.OPEN),
+  // recruiterId may be sent by frontend but is ignored — controller reads it from JWT
+  recruiterId: Joi.number().optional(),
 });
 
 export { jobPostionValidator };

@@ -20,3 +20,4 @@ __exportStar(require("./applicationServices"), exports);
 __exportStar(require("./jobPositionServices"), exports);
 __exportStar(require("./interviewServices"), exports);
 __exportStar(require("./dashboardServices"), exports);
+__exportStar(require("./recruiterServices"), exports);
